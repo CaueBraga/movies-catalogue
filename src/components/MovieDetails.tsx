@@ -1,7 +1,35 @@
 import Image from "next/image";
-import dp from "../assets/dp.svg";
+import { MovieType, Credits } from "../types";
 
-export function MovieDetails({ movie, creditsData }: any) {
+interface MovieDetailsProps {
+  movie: MovieType;
+  creditsData: Credits | undefined;
+}
+
+export function MovieDetails({ movie, creditsData }: MovieDetailsProps) {
+  const getCrew = () => {
+    if (!creditsData) return [];
+
+    const producer = creditsData.crew.find(
+      (crewMember: any) => crewMember.job === "Producer"
+    );
+    const director = creditsData.crew.find(
+      (crewMember: any) => crewMember.job === "Director"
+    );
+    const screenPlay = creditsData.crew.find(
+      (crewMember: any) => crewMember.job === "Screenplay"
+    );
+    const writer = creditsData.crew.find(
+      (crewMember: any) => crewMember.job === "Writer"
+    );
+    const editor = creditsData.crew.find(
+      (crewMember: any) => crewMember.job === "Editor"
+    );
+    return [producer, director, screenPlay, writer, editor].filter(
+      (element) => element
+    );
+  };
+
   return (
     <div className="bg-purple-900 text-gray-100 flex pt-8 md:pt-20 pb-4 px-4 lg:px-28 md:px-12">
       <div className="flex gap-8 pb-8 flex-col md:flex-row">
@@ -17,49 +45,37 @@ export function MovieDetails({ movie, creditsData }: any) {
         </div>
 
         <div className="max-w-2xl">
-          <strong className="text-2xl">{movie.title} • </strong>
+          <strong className="text-4xl">{movie.title} • </strong>
           <span className="text-2xl">{movie.release_date.substring(0, 4)}</span>
           <div>
-            <div>
+            <div className="mt-3 text-lg">
+              {movie.release_date} •{" "}
               {movie.genres.map((genre: any, index: number) => (
                 <span key={genre.id}>
                   {genre.name}
                   {index === movie.genres.length - 1 ? "" : ", "}
                 </span>
-              ))}
-
-              {/* todo: duration props */}
-
-              <span>3 horas</span>
+              ))}{" "}
+              • {movie.runtime} min
             </div>
             <div className="flex items-baseline gap-3">
-              <div className="mt-4  radial-progress bg-violet-900 text-[#14FF00]">
-                55%
+              <div className="mt-4 text-xl radial-progress bg-violet-900 text-[#14FF00]">
+                {Math.round(movie.vote_average * 10)}%
               </div>
               <span>Users Ratings</span>
             </div>
+
             <div>
               <h2 className="font-bold text-xl mt-8">Synopsis</h2>
-              <p className="pt-2">
-                Lorem ipsum dolor sit amet, consectetur adipisicing elit.
-                Voluptate quam amet debitis itaque accusantium cupiditate,
-                reprehenderit facere nemo sapiente odit aliquam blanditiis quia
-                nesciunt, corrupti omnis odio tempora? Cupiditate, molestias.
-              </p>
+              <p className="pt-2 text-lg">{movie.overview}</p>
             </div>
             <div className="flex flex-wrap gap-6 gap-x-14 mt-12">
-              <div className="w-40">
-                <strong className="block">roberto</strong>
-                <span>diretor</span>
-              </div>
-              <div className="w-40">
-                <strong className="block">roberto</strong>
-                <span>diretor</span>
-              </div>
-              <div className="w-40">
-                <strong className="block">roberto</strong>
-                <span>diretor</span>
-              </div>
+              {getCrew().map((crewMember: any) => (
+                <div key={crewMember.id} className="w-40">
+                  <strong className="block">{crewMember.name}</strong>
+                  <span>{crewMember.job}</span>
+                </div>
+              ))}
             </div>
           </div>
         </div>
