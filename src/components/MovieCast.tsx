@@ -1,6 +1,6 @@
 import Image from "next/image";
 import Ryan from "../assets/ryan.png";
-export function MovieCast() {
+export function MovieCast({ creditsData }: any) {
   return (
     <div className="mt-20 text-black mb-20">
       <h1 className="text-2xl font-bold">Original Cast</h1>

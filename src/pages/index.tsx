@@ -3,25 +3,13 @@ import { useEffect, useState } from "react";
 import { FilterSection } from "@/components/FilterSection";
 import { Header } from "@/components/Header";
 import { MoviePosterContainer } from "@/components/MoviePosterContainer";
+import { MovieType, Genre } from "../types";
 
-export interface Genre {
-  id: number;
-  name: string;
-}
-export interface MovieType {
-  title: string;
-  release_date: string;
-  poster_path: string;
-  genres: Genre[];
-  runtime: number;
-  vote_average: number;
-  overview: string;
-}
+export const API_KEY = "d2d06aeabc68ef97fb19e37535438935";
 
 export default function Home() {
   const [genres, setGenres] = useState<Genre[]>([]);
   const [movies, setMovies] = useState<MovieType[]>([]);
-  const API_KEY = "d2d06aeabc68ef97fb19e37535438935";
 
   useEffect(() => {
     const callApi = async () => {

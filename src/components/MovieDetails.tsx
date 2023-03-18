@@ -1,7 +1,7 @@
 import Image from "next/image";
 import dp from "../assets/dp.svg";
 
-export function MovieDetails() {
+export function MovieDetails({ movie, creditsData }: any) {
   return (
     <div className="bg-purple-900 text-gray-100 flex pt-8 md:pt-20 pb-4 px-4 lg:px-28 md:px-12">
       <div className="flex gap-8 pb-8 flex-col md:flex-row">
@@ -11,16 +11,26 @@ export function MovieDetails() {
             className="rounded-lg drop-shadow-2xl h-72 w-44 md:min-h-[576px] md:min-w-[384px]"
             width={383}
             height={474}
-            src={dp}
+            src={`https://image.tmdb.org/t/p/original${movie.poster_path}`}
             alt=""
           />
         </div>
+
         <div className="max-w-2xl">
-          <strong className="text-2xl"> oi alberto • </strong>
-          <span className="text-2xl">12/12/23</span>
+          <strong className="text-2xl">{movie.title} • </strong>
+          <span className="text-2xl">{movie.release_date.substring(0, 4)}</span>
           <div>
             <div>
-              <span>terror</span>3 horas
+              {movie.genres.map((genre: any, index: number) => (
+                <span key={genre.id}>
+                  {genre.name}
+                  {index === movie.genres.length - 1 ? "" : ", "}
+                </span>
+              ))}
+
+              {/* todo: duration props */}
+
+              <span>3 horas</span>
             </div>
             <div className="flex items-baseline gap-3">
               <div className="mt-4  radial-progress bg-violet-900 text-[#14FF00]">

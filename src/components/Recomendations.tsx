@@ -2,7 +2,7 @@ import Image from "next/image";
 import Link from "next/link";
 import example from "../assets/example.png";
 
-export function Recomendations() {
+export function Recomendations({ recomendationsData }: any) {
   return (
     <div className="mt-16 text-black">
       <h1 className="text-2xl font-bold">Recomendations</h1>
