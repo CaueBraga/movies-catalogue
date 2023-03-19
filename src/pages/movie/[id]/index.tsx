@@ -1,4 +1,3 @@
-import axios from "axios";
 import { Header } from "@/components/Header";
 import { MovieCast } from "@/components/MovieCast";
 import { MovieDetails } from "@/components/MovieDetails";

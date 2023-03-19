@@ -59,7 +59,15 @@ export function MovieDetails({ movie, creditsData }: MovieDetailsProps) {
               • {movie.runtime} min
             </div>
             <div className="flex items-baseline gap-3">
-              <div className="mt-4 text-xl radial-progress bg-violet-900 text-[#14FF00]">
+              <div
+                style={
+                  {
+                    "--size": "60px",
+                    "--value": `${movie.vote_average * 10}`,
+                  } as any
+                }
+                className="mt-4 text-xl radial-progress bg-violet-900 text-[#14FF00]"
+              >
                 {Math.round(movie.vote_average * 10)}%
               </div>
               <span>Users Ratings</span>

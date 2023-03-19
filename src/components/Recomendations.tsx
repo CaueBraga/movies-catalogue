@@ -1,6 +1,5 @@
 import Image from "next/image";
 import Link from "next/link";
-import example from "../assets/example.png";
 import { Recomendation } from "../types";
 
 export interface RecomendationsProps {

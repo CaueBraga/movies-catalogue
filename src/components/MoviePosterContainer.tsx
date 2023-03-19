@@ -1,20 +1,6 @@
 import Image from "next/image";
 import Link from "next/link";
-import example from "../assets/example.png";
-
-export interface Genre {
-  id: number;
-  name: string;
-}
-export interface MovieType {
-  title: string;
-  release_date: string;
-  poster_path: string;
-  genres: Genre[];
-  runtime: number;
-  vote_average: number;
-  overview: string;
-}
+import { MovieType } from "../types";
 
 export interface MoviePosterContainerProps {
   movies: MovieType[];
