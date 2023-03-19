@@ -55,7 +55,7 @@ export default function Movie() {
       <MovieDetails movie={movieDetails} creditsData={creditsData} />
 
       <div className="px-4 md:px-28 pb-96">
-        <MovieCast creditsData={creditsData} />
+        <MovieCast cast={creditsData} />
 
         <div>
           <div className="text-2xl  text-black font-bold mb-6">Trailer</div>
