@@ -12,7 +12,7 @@ export function MovieCast({ cast }: MovieCastProps) {
     <div className="mt-20 text-black mb-20">
       <h1 className="text-2xl font-bold">Original Cast</h1>
       <div className="flex gap-6 mt-8 max-w-full overflow-x-scroll pb-6">
-        {cast!.cast.map((castMember: any) => {
+        {cast?.cast.map((castMember: any) => {
           if (castMember.profile_path === null)
             return (
               <div

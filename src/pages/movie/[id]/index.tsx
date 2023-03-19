@@ -48,6 +48,20 @@ export default function Movie() {
     return <div>Loading...</div>;
   }
 
+  const getTrailer = () => {
+    if (!trailerData) return;
+    const trailer = trailerData.results.find(
+      (trailer: any) => trailer.name === "Official Trailer"
+    );
+
+    if (!trailer && trailerData.results[0]) {
+      return trailerData.results[0].key;
+    }
+
+    if (!trailer) return;
+    return trailer.key;
+  };
+
   return (
     <div className="bg-gray-100">
       <Header />
@@ -67,12 +81,12 @@ export default function Movie() {
             allow="accelerometer; clipboard-write; encrypted-media; gyroscope; picture-in-picture full"
             width="100%"
             height="100%"
-            src="https://www.youtube.com/watch?v=Q9X-bAE8KTc"
+            src={`https://www.youtube.com/embed/${getTrailer()}?autoplay=0&origin=http://example.com&controls=1&rel=1`}
             frameBorder="0"
           ></iframe>
         </div>
 
-        <Recomendations recomendationData={recomendationsData} />
+        <Recomendations recomendationsData={recomendationsData} />
       </div>
     </div>
   );
