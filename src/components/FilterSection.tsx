@@ -4,9 +4,15 @@ export interface Genre {
 }
 interface FilterSectionProps {
   genres: Genre[];
+  filters: number[];
+  handleToFilter: Function;
 }
 
-export function FilterSection({ genres }: FilterSectionProps) {
+export function FilterSection({
+  genres,
+  handleToFilter,
+  filters,
+}: FilterSectionProps) {
   return (
     <div className="flex sm:items-center bg-purple-900 flex-col p-4">
       <span className="font-bold text-gray-100 text-sm uppercase mb-4 ">
@@ -17,7 +23,14 @@ export function FilterSection({ genres }: FilterSectionProps) {
         {genres.map((genre) => (
           <button
             key={genre.id}
-            className="px-4 py-2 rounded font-bold bg-gray-100 text-black hover:bg-gray-300"
+            className={`px-4 py-2 rounded font-bold ${
+              filters.includes(genre.id)
+                ? "bg-highlight-500 text-white hover:bg-highlight-700"
+                : "bg-gray-100 text-black hover:bg-highlight-500"
+            }`}
+            onClick={() => {
+              handleToFilter(genre.id);
+            }}
           >
             {genre.name}
           </button>

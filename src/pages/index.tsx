@@ -13,11 +13,12 @@ export default function Home() {
   const [genres, setGenres] = useState<Genre[]>([]);
   const [movies, setMovies] = useState<MovieType[]>([]);
   const [currentPage, setCurrentPage] = useState<number>(1);
+  const [filters, setFilters] = useState<number[]>([]);
   useEffect(() => {
     const callApi = async () => {
       const response = await axios(
         `
-        https://api.themoviedb.org/3/movie/popular?api_key=${API_KEY}&language=en-US&page=1`,
+        https://api.themoviedb.org/3/movie/popular?api_key=${API_KEY}&language=en-US&page=1&with_genres=${formatFilters()}`,
         {
           params: {
             page: currentPage,
@@ -28,7 +29,7 @@ export default function Home() {
     };
     callApi();
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [currentPage]);
+  }, [currentPage, filters]);
 
   useEffect(() => {
     const callApi = async () => {
@@ -41,6 +42,10 @@ export default function Home() {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
+  const formatFilters = () => {
+    return filters.join();
+  };
+
   const getPages = () => {
     if (currentPage < 3) return [1, 2, 3, 4, 5];
 
@@ -51,6 +56,16 @@ export default function Home() {
       currentPage + 1,
       currentPage + 2,
     ];
+  };
+
+  const handleToFilter = (newFilter: number) => {
+    if (filters.includes(newFilter)) {
+      setFilters(filters.filter((genre) => genre !== newFilter));
+      setCurrentPage(1);
+    } else {
+      setFilters((arr: any) => [...arr, newFilter]);
+      setCurrentPage(1);
+    }
   };
 
   return (
@@ -65,7 +80,11 @@ export default function Home() {
         </div>
       </div>
 
-      <FilterSection genres={genres} />
+      <FilterSection
+        handleToFilter={handleToFilter}
+        filters={filters}
+        genres={genres}
+      />
 
       <MoviePosterContainer movies={movies} />
 
@@ -84,7 +103,7 @@ export default function Home() {
             key={page}
             className={` px-4 py-2 font-bold rounded-full hover:bg-slate-100 ${
               currentPage === page
-                ? "text-purple-900 bg-slate-100"
+                ? "text-highlight-500  bg-slate-100"
                 : "text-purple-400"
             }`}
             onClick={() => {
