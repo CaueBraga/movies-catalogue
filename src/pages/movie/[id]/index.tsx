@@ -12,29 +12,38 @@ import { api } from "../../../lib/axios";
 export default function Movie() {
   const router = useRouter();
   const { id } = router.query;
-
+  const [loading, setLoading] = useState<boolean>(true);
   const [creditsData, setCreditsData] = useState<Credits>();
   const [recomendationsData, setRecomendationsData] = useState<Recomendation>();
   const [trailerData, setTrailerData] = useState<Trailer>();
   const [movieDetails, setMovieDetails] = useState<MovieType>();
-
+  const [error, setError] = useState<boolean>(false);
   useEffect(() => {
     const callApi = async () => {
-      const [
-        creditsDataResponse,
-        recomendationsDataResponse,
-        trailerDataResponse,
-        movieDetailsResponse,
-      ] = await Promise.all([
-        api.get(`${id}/credits?api_key=${API_KEY}&language=en-US`),
-        api.get(`${id}/recommendations?api_key=${API_KEY}&language=en-US`),
-        api.get(`${id}/videos?api_key=${API_KEY}&language=en-US`),
-        api.get(`${id}?api_key=${API_KEY}&language=en-US`),
-      ]);
-      setCreditsData(creditsDataResponse.data);
-      setRecomendationsData(recomendationsDataResponse.data);
-      setTrailerData(trailerDataResponse.data);
-      setMovieDetails(movieDetailsResponse.data);
+      setLoading(true);
+      setError(false);
+      try {
+        const [
+          creditsDataResponse,
+          recomendationsDataResponse,
+          trailerDataResponse,
+          movieDetailsResponse,
+        ] = await Promise.all([
+          api.get(`${id}/credits?api_key=${API_KEY}&language=en-US`),
+          api.get(`${id}/recommendations?api_key=${API_KEY}&language=en-US`),
+          api.get(`${id}/videos?api_key=${API_KEY}&language=en-US`),
+          api.get(`${id}?api_key=${API_KEY}&language=en-US`),
+        ]);
+        setCreditsData(creditsDataResponse.data);
+        setRecomendationsData(recomendationsDataResponse.data);
+        setTrailerData(trailerDataResponse.data);
+        setMovieDetails(movieDetailsResponse.data);
+      } catch (err) {
+        setError(true);
+        console.log(err);
+      } finally {
+        setLoading(false);
+      }
     };
 
     if (id) {
